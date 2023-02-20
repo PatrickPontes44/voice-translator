@@ -91,7 +91,7 @@ export default function Home() {
         </header>
         <Select onChange={handleSelectFromLang} label="From" values={languageCountries} />
         <Select onChange={handleSelectToLang} label="To" values={languageCountries} />
-        <button className={`my-4 text-3xl rounded-full p-4 text-white ${listening ? 'bg-red-500' : 'bg-slate-900'} `} onMouseDownCapture={handleStartListening} onMouseUp={stop}>
+        <button className={`my-4 text-3xl rounded-full p-4 text-white ${listening ? 'bg-red-500' : 'bg-slate-900'} `} onMouseDownCapture={handleStartListening} onTouchStart={handleStartListening} onMouseUp={stop} onTouchEnd={stop}>
           {
             !listening ?
             <FaMicrophone />
