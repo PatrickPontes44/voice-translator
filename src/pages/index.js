@@ -9,7 +9,60 @@ import axios from 'axios';
 
 export default function Home() {
 
-  const [languageCountries, setLanguageCountries] = useState([]);
+  const [languageCountries, setLanguageCountries] = useState([
+    [
+        "de-DE",
+        "German"
+    ],
+    [
+        "en-GB",
+        "English"
+    ],
+    [
+        "es-ES",
+        "Spanish"
+    ],
+    [
+        "fr-FR",
+        "French"
+    ],
+    [
+        "hi-IN",
+        "Hindi"
+    ],
+    [
+        "id-ID",
+        "Indonesian"
+    ],
+    [
+        "it-IT",
+        "Italian"
+    ],
+    [
+        "ja-JP",
+        "Japanese"
+    ],
+    [
+        "ko-KR",
+        "Korean"
+    ],
+    [
+        "nl-NL",
+        "Dutch"
+    ],
+    [
+        "pl-PL",
+        "Polish"
+    ],
+    [
+        "pt-PT",
+        "Portuguese"
+    ],
+    [
+        "ru-RU",
+        "Russian"
+    ]
+]);
   const [selectedVoice, setSelectedVoice] = useState(0);
 
   const [fromLang, setFromLang] = useState('pt-PT');
@@ -38,7 +91,11 @@ export default function Home() {
   }
 
   const handleStartListening = ()=>{
-    listen({ lang: fromLang });
+    try {
+      listen({ lang: fromLang });
+    } catch (error) {
+      stop()
+    }
   }
 
   const handleSelectToLang = (lang) =>{
@@ -63,11 +120,6 @@ export default function Home() {
 
   }
 
-  useEffect(() => {
-    const langs = Object.entries(countries).filter((countrie)=> voices.some((voice)=> countrie[0] == voice.lang))
-    setLanguageCountries(langs)
-  }, [voices])
-
 
   useEffect(() => {
     if(!listening && inputValue.length > 0){
@@ -83,7 +135,6 @@ export default function Home() {
   }, [translatedValue])
 
 
-  
   return (
       <div className="w-full h-screen flex flex-col justify-center items-center p-4 gap-4">
         <header className="text-black font-bold text-5xl">
@@ -91,7 +142,7 @@ export default function Home() {
         </header>
         <Select onChange={handleSelectFromLang} label="From" values={languageCountries} />
         <Select onChange={handleSelectToLang} label="To" values={languageCountries} />
-        <button className={`my-4 text-3xl rounded-full p-4 text-white ${listening ? 'bg-red-500' : 'bg-slate-900'} `} onMouseDownCapture={handleStartListening} onTouchStart={handleStartListening} onMouseUp={stop} onTouchEnd={stop}>
+        <button className={`my-4 text-3xl rounded-full p-4 text-white ${listening ? 'bg-red-500' : 'bg-slate-900'} `} onClick={()=> !listening ? handleStartListening() : stop()}>
           {
             !listening ?
             <FaMicrophone />
